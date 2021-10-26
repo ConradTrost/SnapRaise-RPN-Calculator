@@ -4,8 +4,6 @@
 
 // A standard infix arithmetic expression can be converted to an RPN expression using a parsing algorithm as a recursive descent parse.
 
-// RPN is used in Hewlett Packard and some Texas Instruments calculators and internally in some computer languages.
-
 var readline = require('readline');
 
 const calcArr = [];
@@ -16,12 +14,39 @@ var rl = readline.createInterface({
   terminal: false
 });
 
+let e1 = 0;
+let e2 = 0;
+
+const removeNumbersFromArr = () => {
+    calcArr.pop();
+    calcArr.pop();
+}
+
 rl.on('line', function(line){
-    if ((isNaN(line) || line == '') && line != '+' && line != '-' && line != '*' && line != '/' && line != 'q') {
-        console.log('Please enter a number');
+
+    e1 = calcArr[calcArr.length - 2];
+    e2 = calcArr[calcArr.length - 1];
+
+    if (line == '+') {
+        removeNumbersFromArr();
+        line = e1 + e2;
+    } else if (line == '-') {
+        removeNumbersFromArr();
+        line = e1 - e2;
+    } else if (line == '*') {
+        removeNumbersFromArr();
+        line = e1 * e2;
+    } else if (line == '/') {
+        removeNumbersFromArr();
+        line = e1 / e2;
     } else if (line == 'q') {
         rl.close();
+    }
+    
+    if ((isNaN(line) || line == '') && line != 'q')  {
+        console.log('Please enter a number');
     } else {
+        line = parseInt(line, 10);
         calcArr.push(line);
         console.log(line);
         console.log(calcArr);
