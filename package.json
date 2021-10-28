@@ -8,8 +8,5 @@
     "start": "node index"
   },
   "author": "Conrad Trost",
-  "license": "ISC",
-  "dependencies": {
-    "prompts": "^2.4.2"
-  }
+  "license": "ISC"
 }

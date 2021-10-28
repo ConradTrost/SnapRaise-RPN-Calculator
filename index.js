@@ -1,12 +1,4 @@
-// 1. If a value appears next in the expression, push this value on to the stack.
-
-// 2. If an operator appears next, pop two items from the top of the stack and push the result of the operation on to the stack.
-
-// A standard infix arithmetic expression can be converted to an RPN expression using a parsing algorithm as a recursive descent parse.
-
 var readline = require('readline');
-
-const calcArr = [];
 
 var rl = readline.createInterface({
   input: process.stdin,
@@ -14,6 +6,10 @@ var rl = readline.createInterface({
   terminal: false
 });
 
+// Add more operators here
+const operators = ['+', '-', '*', '/'];
+
+let calcArr = [];
 let e1 = 0;
 let e2 = 0;
 
@@ -24,31 +20,42 @@ const removeNumbersFromArr = () => {
 
 rl.on('line', function(line){
 
-    e1 = calcArr[calcArr.length - 2];
-    e2 = calcArr[calcArr.length - 1];
+    line = line.split(' ');
 
-    if (line == '+') {
-        removeNumbersFromArr();
-        line = e1 + e2;
-    } else if (line == '-') {
-        removeNumbersFromArr();
-        line = e1 - e2;
-    } else if (line == '*') {
-        removeNumbersFromArr();
-        line = e1 * e2;
-    } else if (line == '/') {
-        removeNumbersFromArr();
-        line = e1 / e2;
-    } else if (line == 'q') {
-        rl.close();
-    }
-    
-    if ((isNaN(line) || line == '') && line != 'q')  {
-        console.log('Please enter a number');
-    } else {
-        line = parseInt(line, 10);
-        calcArr.push(line);
-        console.log(line);
-        console.log(calcArr);
-    }
+    line.forEach(entry => {
+        e1 = calcArr[calcArr.length - 2];
+        e2 = calcArr[calcArr.length - 1];
+
+        // If entry is an operator, Apply the operation
+        if (operators.indexOf(entry) !== -1) {
+            removeNumbersFromArr();
+            entry = eval(`${e1} ${entry} ${e2}`);
+        }
+
+        // if (entry == '+') {
+        //     removeNumbersFromArr();
+        //     entry = e1 + e2;
+        // } else if (entry == '-') {
+        //     removeNumbersFromArr();
+        //     entry = e1 - e2;
+        // } else if (entry == '*') {
+        //     removeNumbersFromArr();
+        //     entry = e1 * e2;
+        // } else if (entry == '/') {
+        //     removeNumbersFromArr();
+        //     entry = e1 / e2;
+        // } else if (entry == 'q') {
+        //     rl.close();
+        // }
+
+        console.log(entry);
+        
+        if ((isNaN(entry) || entry == '') && entry != 'q')  {
+            console.log('Please enter a number');
+        } else {
+            entry = parseFloat(entry);
+            calcArr = calcArr.concat(entry);
+            console.log(calcArr);
+        }
+    })
 })
