@@ -13,16 +13,19 @@ let calcArr = [];
 let e1 = 0;
 let e2 = 0;
 
+// Remove 2 previous entries after math has been applied
 const removeNumbersFromArr = () => {
     calcArr.pop();
     calcArr.pop();
 }
 
-rl.on('line', function(line){
+// Reads input from CLI
+rl.on('line', function(input){
 
-    line = line.split(' ');
+    // Added for cases where entire calculation is provided in single line, i.e. `3 5 9 + /`
+    input = input.split(' ');
 
-    line.forEach(entry => {
+    input.forEach(entry => {
         e1 = calcArr[calcArr.length - 2];
         e2 = calcArr[calcArr.length - 1];
 
@@ -31,31 +34,27 @@ rl.on('line', function(line){
             removeNumbersFromArr();
             entry = eval(`${e1} ${entry} ${e2}`);
         }
-
-        // if (entry == '+') {
-        //     removeNumbersFromArr();
-        //     entry = e1 + e2;
-        // } else if (entry == '-') {
-        //     removeNumbersFromArr();
-        //     entry = e1 - e2;
-        // } else if (entry == '*') {
-        //     removeNumbersFromArr();
-        //     entry = e1 * e2;
-        // } else if (entry == '/') {
-        //     removeNumbersFromArr();
-        //     entry = e1 / e2;
-        // } else if (entry == 'q') {
-        //     rl.close();
-        // }
-
-        console.log(entry);
         
         if ((isNaN(entry) || entry == '') && entry != 'q')  {
             console.log('Please enter a number');
+        } else if (entry == 'q') {
+            rl.close();
         } else {
             entry = parseFloat(entry);
             calcArr = calcArr.concat(entry);
-            console.log(calcArr);
         }
-    })
+    });
+
+    console.log(calcArr);
 })
+
+const welcomeMessage = () => {
+    console.log(`
+    Welcome to Reverse Polish Notation Calculator \n
+    Enter 'q' or 'CTRL+D' to exit \n
+    Developed by Conrad Trost for Snap! Raise \n\n
+    Start by entering a number!
+    `);
+}
+
+welcomeMessage();
