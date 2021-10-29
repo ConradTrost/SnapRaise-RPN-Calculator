@@ -9,7 +9,11 @@ Currently supports `+, -, *, /` operators.
 
 Built with Javascript, and running on Node.js.
 
+I used Javascript for this project because it is my most comfortable/primary language, and I chose Node.js since I am previously experienced using it for CLI usage.
 
+### What I might add
+
+If I spent more time on this project, I would add a frontend to extend use towards less tech-savvy folk. I would include testing and peer-review to insure the code is unbreakable. I would have also considered using TypeScript for this project to ensure no errors.
 
 ### Installation
 
